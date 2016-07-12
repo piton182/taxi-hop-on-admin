@@ -41,7 +41,14 @@ Template.hello.helpers({
 
 Template.hello.events({
   'click button'(event, instance) {
-    // increment the counter when button is clicked
-    instance.counter.set(instance.counter.get() + 1);
+    Rides.insert({
+        bkn_ref: "E01540464",
+        name: "Anna E (07012307412)",
+        datetime: "13-jul 8:45",
+        from: "Sveavagen 89",
+        to: "Arlanda",
+        coriders: "Lennart K (01002803465)",
+        actions: "Edit | Delete"
+      });
   },
 });
