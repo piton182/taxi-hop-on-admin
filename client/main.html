@@ -1,0 +1,83 @@
+<head>
+  <title>hop-on-taxi</title>
+</head>
+
+<body>
+  {{> hello}}
+</body>
+
+<template name="hello">
+  <div class="container">
+    <table>
+    <tr>
+      <td>
+      <table class="table table-striped">
+        <h2>New Ride</h2>
+      <div class="name">
+          <label for="usr">Name:</label>
+          <input type="text" class="form-control input-sm" id="usr">
+      </div>
+      <div>
+      <th class="row">
+        <th class='col-sm-6'>
+              <th class="form-group">
+                <label for="row">Date</label>
+                  <th class='input-group date' id='datetimepicker1'>
+                      <input type='text' class="form-control input-sm" />
+                      <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                  </th>
+              </th>
+          </th>
+      </th>
+      <th class="time">
+          <label for="time">Time</label>
+          <input type="text" class="form-control input-sm" id="time">
+      </th>
+      </div>
+      <div class="adress">
+          <label for="adress">From address</label>
+          <input type="text" class="form-control input-sm" id="adress">
+      </div>
+      <div class="airport">
+          <label for="airport">To airport</label>
+          <input type="text" class="form-control input-sm" id="airport">
+      </div>
+      <div>
+        <button>Submit</button>
+      </div>
+      </table>
+      </td>
+      <td>
+        <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>bkn #</th>
+          <th>Name</th>
+          <th>Date/Time</th>
+          <th>From</th>
+          <th>To</th>
+          <th>Co-riders</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each ride in rides}}
+          <tr>
+            <td>{{ride.bkn_ref}}</td>
+            <td>{{ride.name}}</td>
+            <td>{{ride.datetime}}</td>
+            <td>{{ride.from}}</td>
+            <td>{{ride.to}}</td>
+            <td>{{ride.coriders}}</td>
+            <td>{{ride.actions}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+      </td>
+    </tr>
+    </table>
+  </div>
+</template>

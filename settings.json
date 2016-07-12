@@ -1,0 +1,7 @@
+{
+  "galaxy.meteor.com": {
+     "env": {
+       "MONGO_URL": "mongodb://macaw:parrot@ds031942.mlab.com:31942/taxi-hop-on"
+     }
+   }
+}
