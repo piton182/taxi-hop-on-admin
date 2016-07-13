@@ -1,4 +1,4 @@
-import { Template } from 'meteor/templating';
+"R"+Math.floor(Math.random()*(100*1000));import { Template } from 'meteor/templating';
 import { ReactiveDict } from 'meteor/reactive-dict';
 
 import './main.html';
@@ -65,14 +65,22 @@ Template.hello.events({
   'click .js-newride-submit'(event, instance) {
     const newRide = instance.state.get('newRide')
     { // enrich the doc
-      newRide.bkn_ref = 'R0149234'; // TODO: always same ID?
+      newRide.bkn_ref = "R"+Math.floor(Math.random()*(100*1000));; // TODO: always same ID?
     }
     Rides.insert(newRide);
 
     // clear the new ride form model
     instance.state.set('newRide', {});
   },
-
+  'click .js-newride-fake'(event, instance){
+    const newRide = instance.state.get('newRide');
+    newRide.name = faker.name.findName(),
+    newRide.phone = faker.phone.phoneNumberFormat(),
+    newRide.datetime = faker.date.recent(),
+    newRide.from = faker.address.streetAddress(),
+    newRide.to = faker.address.secondaryAddress()
+    instance.state.set('newRide', newRide);
+  },
   'click .js-delete-ride'(event, instance) {
     Rides.remove(this._id)
   },
