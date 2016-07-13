@@ -1,54 +1,87 @@
 import { Template } from 'meteor/templating';
-// import { ReactiveVar } from 'meteor/reactive-var';
+import { ReactiveDict } from 'meteor/reactive-dict';
 
 import './main.html';
 
 import { Rides } from '../both/rides.js'
 
 Template.hello.onCreated(function helloOnCreated() {
-  // counter starts at 0
-  // this.counter = new ReactiveVar(0);
+  this.state = new ReactiveDict()
+  this.state.setDefault({
+    newRide: {},
+    editing: false,
+    // rideBeingEdited: {},
+  });
 });
 
 Template.hello.helpers({
   rides() {
     return Rides.find({});
-    // return [
-    //   {
-    //     bkn_ref: "E01540464",
-    //     name: "Anna E (07012307412)",
-    //     datetime: "13-jul 8:45",
-    //     from: "Sveavagen 89",
-    //     to: "Arlanda",
-    //     coriders: "Lennart K (01002803465)",
-    //     actions: "Edit | Delete"
-    //   },
-    //   {
-    //     bkn_ref: "E01540464",
-    //     name: "Anna E (07012307412)",
-    //     datetime: "13-jul 8:45",
-    //     from: "Sveavagen 89",
-    //     to: "Arlanda",
-    //     coriders: "Lennart K (01002803465)",
-    //     actions: "(Closed)"
-    //   },
-    // ]
   },
-  counter() {
-    return Template.instance().counter.get();
+  editing() {
+    const instance = Template.instance();
+    return instance.state.get('editing');
   },
+  rideFormModel() {
+    const instance = Template.instance();
+    return instance.state.get('editing') ? instance.state.get('rideBeingEdited') : instance.state.get('newRide');
+  },
+  rideBeingEdited() {
+    const instance = Template.instance();
+    return instance.state.get('rideBeingEdited');
+  },
+  editingThisRide() {
+    const instance = Template.instance();
+    return instance.state.get('rideBeingEdited')._id === this._id;
+  }
 });
 
 Template.hello.events({
-  'click button'(event, instance) {
-    Rides.insert({
-        bkn_ref: "E01540464",
-        name: "Anna E (07012307412)",
-        datetime: "13-jul 8:45",
-        from: "Sveavagen 89",
-        to: "Arlanda",
-        coriders: "Lennart K (01002803465)",
-        actions: "Edit | Delete"
-      });
+  'blur .js-newride-field-name'(event, instance) {
+    const newRide = instance.state.get('newRide');
+    newRide.name = event.target.value;
+    instance.state.set('newRide', newRide);
+  },
+  'blur .js-newride-field-phone'(event, instance) {
+    const newRide = instance.state.get('newRide');
+    newRide.phone = event.target.value;
+    instance.state.set('newRide', newRide);
+  },
+  'blur .js-newride-field-datetime'(event, instance) {
+    const newRide = instance.state.get('newRide');
+    newRide.datetime = event.target.value;
+    instance.state.set('newRide', newRide);
+  },
+  'blur .js-newride-field-from'(event, instance) {
+    const newRide = instance.state.get('newRide');
+    newRide.from = event.target.value;
+    instance.state.set('newRide', newRide);
+  },
+  'blur .js-newride-field-to'(event, instance) {
+    const newRide = instance.state.get('newRide');
+    newRide.to = event.target.value;
+    instance.state.set('newRide', newRide);
+  },
+  'click .js-newride-submit'(event, instance) {
+    const newRide = instance.state.get('newRide')
+    { // enrich the doc
+      newRide.bkn_ref = 'R0149234'; // TODO: always same ID?
+    }
+    Rides.insert(newRide);
+
+    // clear the new ride form model
+    instance.state.set('newRide', {});
+  },
+
+  'click .js-delete-ride'(event, instance) {
+    Rides.remove(this._id)
+  },
+  'click .js-edit-ride'(event, instance) {
+    instance.state.set('editing', true);
+    instance.state.set('rideBeingEdited', this);
+  },
+  'click .js-editride-cancel'(event, instance) {
+    instance.state.set('editing', false);
+    instance.state.set('rideBeingEdited', null);
   },
 });

@@ -11,71 +11,141 @@
     <table>
     <tr>
       <td>
-      <table class="table table-striped">
-        <h2>New Ride</h2>
-      <div class="name">
-          <label for="usr">Name:</label>
-          <input type="text" class="form-control input-sm" id="usr">
-      </div>
-      <div>
-      <th class="row">
-        <th class='col-sm-6'>
-              <th class="form-group">
-                <label for="row">Date</label>
-                  <th class='input-group date' id='datetimepicker1'>
-                      <input type='text' class="form-control input-sm" />
-                      <span class="input-group-addon">
-                          <span class="glyphicon glyphicon-calendar"></span>
-                      </span>
-                  </th>
-              </th>
-          </th>
-      </th>
-      <th class="time">
-          <label for="time">Time</label>
-          <input type="text" class="form-control input-sm" id="time">
-      </th>
-      </div>
-      <div class="adress">
-          <label for="adress">From address</label>
-          <input type="text" class="form-control input-sm" id="adress">
-      </div>
-      <div class="airport">
-          <label for="airport">To airport</label>
-          <input type="text" class="form-control input-sm" id="airport">
-      </div>
-      <div>
-        <button>Submit</button>
-      </div>
-      </table>
+        {{#if editing}}
+          <h2>Editing ride #{{rideBeingEdited.bkn_ref}}</h2>
+        {{else}}
+          <h2>New Ride</h2>
+        {{/if}}
+
+        <table class="table table-striped">
+          <tr>
+            <td>
+              <label>Name</label>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="js-newride-field-name"
+                placeholder="Name"
+                value="{{rideFormModel.name}}"
+                tabindex="1"/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Phone</label>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="js-newride-field-phone"
+                placeholder="Phone"
+                value="{{rideFormModel.phone}}"
+                tabindex="2"/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Date/time</label>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="js-newride-field-datetime"
+                placeholder="Date and time"
+                value="{{rideFormModel.datetime}}"
+                tabindex="3"/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>From</label>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="js-newride-field-from"
+                placeholder="Address"
+                value="{{rideFormModel.from}}"
+                tabindex="4"/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>To</label>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="js-newride-field-to"
+                placeholder="Airport"
+                value="{{rideFormModel.to}}"
+                tabindex="5"/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              {{#unless editing}}
+                <a href="#" class="js-newride-fake" tabindex="0">Fake one</a>
+              {{/unless}}
+            </td>
+            <td style="text-align: right">
+              {{#if editing}}
+                <a
+                  href="#"
+                  class="js-editride-cancel"
+                  tabindex="6">Cancel</a>
+                <button class="js-editride-save" tabindex="7">Save</button>
+              {{else}}
+                <button
+                  class="js-newride-submit"
+                  tabindex="6">Submit</button>
+              {{/if}}
+            </td>
+          </tr>
+        </table>
       </td>
       <td>
+        <!-- *********** -->
+        <!-- Rides table -->
+        <!-- *********** -->
+        <h2>Rides</h2>
         <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>bkn #</th>
-          <th>Name</th>
-          <th>Date/Time</th>
-          <th>From</th>
-          <th>To</th>
-          <th>Co-riders</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each ride in rides}}
-          <tr>
-            <td>{{ride.bkn_ref}}</td>
-            <td>{{ride.name}}</td>
-            <td>{{ride.datetime}}</td>
-            <td>{{ride.from}}</td>
-            <td>{{ride.to}}</td>
-            <td>{{ride.coriders}}</td>
-            <td>{{ride.actions}}</td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
+          <thead>
+            <tr>
+              <th>bkn #</th>
+              <th>Name</th>
+              <th>Date/Time</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Co-riders</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each ride in rides}}
+              {{#with ride}}
+                <tr>
+                  <td>{{bkn_ref}}</td>
+                  <td>{{name}} ({{phone}})</td>
+                  <td>{{datetime}}</td>
+                  <td>{{from}}</td>
+                  <td>{{to}}</td>
+                  <td>{{coriders}}</td>
+                  <td>
+                    {{#if editing}}
+                      {{#if editingThisRide}}
+                        <span>editing...</span>
+                      {{/if}}
+                    {{else}}
+                      <a href="#" class="js-edit-ride">Edit</a> | <a href="#" class="js-delete-ride">Delete</a>
+                    {{/if}}
+                  </td>
+                </tr>
+              {{/with}}
+            {{/each}}
+          </tbody>
+        </table>
       </td>
     </tr>
     </table>
