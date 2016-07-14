@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { ReactiveDict } from 'meteor/reactive-dict';
+import { Mongo } from 'meteor/mongo';
 
 import './main.html';
 
@@ -37,32 +38,37 @@ Template.hello.helpers({
 });
 
 Template.hello.events({
-  'blur .js-newride-field-name'(event, instance) {
-    const newRide = instance.state.get('newRide');
-    newRide.name = event.target.value;
-    instance.state.set('newRide', newRide);
+  'blur .js-rideform-field-name'(event, instance) {
+    const rideFormModelId = instance.state.get('editing') ? 'rideBeingEdited' : 'newRide';
+    const rideFormModel = instance.state.get(rideFormModelId);
+    rideFormModel.name = event.target.value;
+    instance.state.set(rideFormModelId, rideFormModel);
   },
-  'blur .js-newride-field-phone'(event, instance) {
-    const newRide = instance.state.get('newRide');
-    newRide.phone = event.target.value;
-    instance.state.set('newRide', newRide);
+  'blur .js-rideform-field-phone'(event, instance) {
+    const rideFormModelId = instance.state.get('editing') ? 'rideBeingEdited' : 'newRide';
+    const rideFormModel = instance.state.get(rideFormModelId);
+    rideFormModel.phone = event.target.value;
+    instance.state.set(rideFormModelId, rideFormModel);
   },
-  'blur .js-newride-field-datetime'(event, instance) {
-    const newRide = instance.state.get('newRide');
-    newRide.datetime = event.target.value;
-    instance.state.set('newRide', newRide);
+  'blur .js-rideform-field-datetime'(event, instance) {
+    const rideFormModelId = instance.state.get('editing') ? 'rideBeingEdited' : 'newRide';
+    const rideFormModel = instance.state.get(rideFormModelId);
+    rideFormModel.datetime = event.target.value;
+    instance.state.set(rideFormModelId, rideFormModel);
   },
-  'blur .js-newride-field-from'(event, instance) {
-    const newRide = instance.state.get('newRide');
-    newRide.from = event.target.value;
-    instance.state.set('newRide', newRide);
+  'blur .js-rideform-field-from'(event, instance) {
+    const rideFormModelId = instance.state.get('editing') ? 'rideBeingEdited' : 'newRide';
+    const rideFormModel = instance.state.get(rideFormModelId);
+    rideFormModel.from = event.target.value;
+    instance.state.set(rideFormModelId, rideFormModel);
   },
-  'blur .js-newride-field-to'(event, instance) {
-    const newRide = instance.state.get('newRide');
-    newRide.to = event.target.value;
-    instance.state.set('newRide', newRide);
+  'blur .js-rideform-field-to'(event, instance) {
+    const rideFormModelId = instance.state.get('editing') ? 'rideBeingEdited' : 'newRide';
+    const rideFormModel = instance.state.get(rideFormModelId);
+    rideFormModel.to = event.target.value;
+    instance.state.set(rideFormModelId, rideFormModel);
   },
-  'click .js-newride-submit'(event, instance) {
+  'click .js-rideform-submit'(event, instance) {
     const newRide = instance.state.get('newRide')
     { // enrich the doc
       newRide.bkn_ref = 'R0149234'; // TODO: always same ID?
@@ -82,6 +88,12 @@ Template.hello.events({
   },
   'click .js-editride-cancel'(event, instance) {
     instance.state.set('editing', false);
-    instance.state.set('rideBeingEdited', null);
+    instance.state.set('rideBeingEdited', {});
+  },
+  'click .js-editride-save'(event, instance) {
+    const rideBeingEdited = instance.state.get('rideBeingEdited');
+    Rides.update({_id: rideBeingEdited._id}, rideBeingEdited);
+    instance.state.set('editing', false);
+    instance.state.set('rideBeingEdited', {});
   },
 });
