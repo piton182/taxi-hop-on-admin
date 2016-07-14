@@ -78,7 +78,15 @@ Template.hello.events({
     // clear the new ride form model
     instance.state.set('newRide', {});
   },
-
+  'click .js-newride-fake'(event, instance){
+    const newRide = instance.state.get('newRide');
+    newRide.name = faker.name.findName(),
+    newRide.phone = faker.phone.phoneNumberFormat(),
+    newRide.datetime = faker.date.recent(),
+    newRide.from = faker.address.streetAddress(),
+    newRide.to = faker.address.secondaryAddress()
+    instance.state.set('newRide', newRide);
+  },
   'click .js-delete-ride'(event, instance) {
     Rides.remove(this._id)
   },
