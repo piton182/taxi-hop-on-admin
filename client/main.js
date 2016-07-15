@@ -71,7 +71,7 @@ Template.hello.events({
   'click .js-rideform-submit'(event, instance) {
     const newRide = instance.state.get('newRide')
     { // enrich the doc
-      newRide.bkn_ref = 'R0149234'; // TODO: always same ID?
+      newRide.bkn_ref = 'R' + Math.floor(Math.random()*(100*1000)); // TODO: always same ID?
     }
     Rides.insert(newRide);
 
