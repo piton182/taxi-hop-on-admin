@@ -71,14 +71,22 @@ Template.hello.events({
   'click .js-rideform-submit'(event, instance) {
     const newRide = instance.state.get('newRide')
     { // enrich the doc
-      newRide.bkn_ref = 'R0149234'; // TODO: always same ID?
+      newRide.bkn_ref = 'R' + Math.floor(Math.random()*(100*1000)); // TODO: always same ID?
     }
     Rides.insert(newRide);
 
     // clear the new ride form model
     instance.state.set('newRide', {});
   },
-
+  'click .js-rideform-fake'(event, instance){
+    const newRide = instance.state.get('newRide');
+    newRide.name = faker.name.findName(),
+    newRide.phone = faker.phone.phoneNumberFormat(),
+    newRide.datetime = faker.date.recent(),
+    newRide.from = faker.address.streetAddress(),
+    newRide.to = faker.address.streetAddress()
+    instance.state.set('newRide', newRide);
+  },
   'click .js-delete-ride'(event, instance) {
     Rides.remove(this._id)
   },
