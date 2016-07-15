@@ -84,7 +84,7 @@ Template.hello.events({
     newRide.phone = faker.phone.phoneNumberFormat(),
     newRide.datetime = faker.date.recent(),
     newRide.from = faker.address.streetAddress(),
-    newRide.to = faker.address.secondaryAddress()
+    newRide.to = faker.address.streetAddress()
     instance.state.set('newRide', newRide);
   },
   'click .js-delete-ride'(event, instance) {
