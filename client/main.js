@@ -17,6 +17,7 @@ Template.hello.onCreated(function helloOnCreated() {
 
 Template.hello.helpers({
   rides() {
+    console.log(Rides.find({}))
     return Rides.find({});
   },
   editing() {
@@ -43,6 +44,7 @@ Template.hello.events({
     const rideFormModel = instance.state.get(rideFormModelId);
     rideFormModel.name = event.target.value;
     instance.state.set(rideFormModelId, rideFormModel);
+    console.log(rideFormModelId, rideFormModel);
   },
   'blur .js-rideform-field-phone'(event, instance) {
     const rideFormModelId = instance.state.get('editing') ? 'rideBeingEdited' : 'newRide';
