@@ -17,8 +17,10 @@ Template.hello.onCreated(function helloOnCreated() {
 
 Template.hello.helpers({
   rides() {
-    console.log(Rides.find({}))
-    return Rides.find({});
+    return Rides.find();
+  },
+  isRidesEmpty() {
+    return Rides.find().count() == 0;
   },
   editing() {
     const instance = Template.instance();
@@ -74,6 +76,7 @@ Template.hello.events({
     const newRide = instance.state.get('newRide')
     { // enrich the doc
       newRide.bkn_ref = 'R' + Math.floor(Math.random()*(100*1000)); // TODO: always same ID?
+      newRide.coriders = '';
     }
     Rides.insert(newRide);
 

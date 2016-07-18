@@ -123,14 +123,17 @@
             </tr>
           </thead>
           <tbody>
-            {{#each ride in rides}}
+            {{#if isRidesEmpty}}
+              <span>No rides</span>
+            {{/if}}
+            {{#each rides}}
                 <tr>
-                  <td>{{ride.bkn_ref}}</td>
-                  <td>{{ride.name}} ({{ride.phone}})</td>
-                  <td>{{ride.datetime}}</td>
-                  <td>{{ride.from}}</td>
-                  <td>{{ride.to}}</td>
-                  <td>{{ride.coriders}}</td>
+                  <td>{{bkn_ref}}</td>
+                  <td>{{name}} ({{ride.phone}})</td>
+                  <td>{{datetime}}</td>
+                  <td>{{from}}</td>
+                  <td>{{to}}</td>
+                  <td>{{coriders}}</td>
                   <td>
                     {{#if editing}}
                       {{#if editingThisRide}}
