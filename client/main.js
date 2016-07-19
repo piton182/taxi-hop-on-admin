@@ -46,7 +46,6 @@ Template.hello.events({
     const rideFormModel = instance.state.get(rideFormModelId);
     rideFormModel.name = event.target.value;
     instance.state.set(rideFormModelId, rideFormModel);
-    console.log(rideFormModelId, rideFormModel);
   },
   'blur .js-rideform-field-phone'(event, instance) {
     const rideFormModelId = instance.state.get('editing') ? 'rideBeingEdited' : 'newRide';
@@ -75,7 +74,7 @@ Template.hello.events({
   'click .js-rideform-submit'(event, instance) {
     const newRide = instance.state.get('newRide')
     { // enrich the doc
-      newRide.bkn_ref = 'R' + Math.floor(Math.random()*(100*1000)); // TODO: always same ID?
+      newRide.bkn_ref = 'R' + Math.floor(Math.random()*(100*1000)); // TODO: it should generate at the server (as method?)
       newRide.coriders = '';
     }
     Rides.insert(newRide);
