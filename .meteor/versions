@@ -51,6 +51,7 @@ observe-sequence@1.0.12
 ordered-dict@1.0.8
 practicalmeteor:faker@3.0.1_1
 promise@0.7.3
+rajit:bootstrap3-datepicker@1.5.1
 random@1.0.10
 reactive-dict@1.1.8
 reactive-var@1.0.10

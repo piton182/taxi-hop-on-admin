@@ -15,6 +15,10 @@ Template.hello.onCreated(function helloOnCreated() {
   });
 });
 
+Template.hello.onRendered(function helloOnRendered() {
+	this.$('#my-datepicker').datepicker();
+});
+
 Template.hello.helpers({
   rides() {
     return Rides.find();
