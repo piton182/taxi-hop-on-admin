@@ -5,6 +5,7 @@ import { Mongo } from 'meteor/mongo';
 import './main.html';
 
 import { Rides } from '../both/rides.js'
+import { Airports } from '../both/airports.js'
 
 Template.hello.onCreated(function helloOnCreated() {
   this.state = new ReactiveDict()
@@ -53,7 +54,17 @@ Template.hello.helpers({
   editingThisRide() {
     const instance = Template.instance();
     return instance.state.get('rideBeingEdited')._id === this._id;
-  }
+  },
+
+  airportOptions() {
+    return Airports.find();
+  },
+  isAirportSelected(airportName) {
+    const instance = Template.instance();
+    const rideFormModelId = instance.state.get('editing') ? 'rideBeingEdited' : 'newRide';
+    const rideFormModel = instance.state.get(rideFormModelId);
+    return (rideFormModel.to === airportName);
+  },
 });
 
 Template.hello.events({

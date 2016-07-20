@@ -76,12 +76,19 @@
               <label>To</label>
             </td>
             <td>
-              <input
+              <select>
+                {{#each airportOptions}}
+                  <option
+                    selected="{{isAirportSelected name}}"
+                    class="js-rideform-field-to">{{name}}</option>
+                {{/each}}
+              </select>
+              <!-- <input
                 type="text"
                 class="js-rideform-field-to"
                 placeholder="Airport"
                 value="{{rideFormModel.to}}"
-                tabindex="5"/>
+                tabindex="5"/> -->
             </td>
           </tr>
           <tr>
