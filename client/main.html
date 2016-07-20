@@ -12,9 +12,9 @@
     <tr>
       <td valign="top" style="padding: 20px">
         {{#if editing}}
-          <h2>Editing ride #{{rideBeingEdited.bkn_ref}}</h2>
+          <h3>Editing ride #{{rideBeingEdited.bkn_ref}}</h3>
         {{else}}
-          <h2>New Ride</h2>
+          <h3>New Ride</h3>
         {{/if}}
 
         <table class="table table-striped">
@@ -28,7 +28,7 @@
                 class="js-rideform-field-name"
                 placeholder="Name"
                 value="{{rideFormModel.name}}"
-                tabindex="1"/>
+                tabindex="10"/>
             </td>
           </tr>
           <tr>
@@ -41,7 +41,7 @@
                 class="js-rideform-field-phone"
                 placeholder="Phone"
                 value="{{rideFormModel.phone}}"
-                tabindex="2"/>
+                tabindex="20"/>
             </td>
           </tr>
           <tr>
@@ -49,13 +49,38 @@
               <label>Date/time</label>
             </td>
             <td>
-              <input
-                type="text"
-                id="my-datepicker"
-                class="js-rideform-field-datetime"
-                placeholder="Date and time"
-                value="{{rideFormModel.datetime}}"
-                tabindex="3">
+              <table>
+                <tr>
+                  <td>
+                    <input
+                      type="text"
+                      id="my-datepicker"
+                      class="js-rideform-field-date"
+                      placeholder="mm/dd/yyyy"
+                      value="{{rideFormModel.date}}"
+                      tabindex="30"
+                      style="width: 80px">
+                  </td>
+                  <td style="padding-left: 10px">
+                    <input
+                      type="text"
+                      class="js-rideform-field-timeh"
+                      style="width: 25px"
+                      value="{{rideFormModel.timeh}}"
+                      placeholder="h"
+                      tabindex="31" />
+                  </td>
+                  <td style="padding: 0 5px 0 5px">:</td>
+                  <td>
+                    <input
+                      type="text"
+                      class="js-rideform-field-timem"
+                      value="{{rideFormModel.timem}}"
+                      style="width: 25px"
+                      placeholder="m"
+                      tabindex="32" /></td>
+                </tr>
+              </table>
             </td>
           </tr>
           <tr>
@@ -68,7 +93,7 @@
                 class="js-rideform-field-from"
                 placeholder="Address"
                 value="{{rideFormModel.from}}"
-                tabindex="4"/>
+                tabindex="40"/>
             </td>
           </tr>
           <tr>
@@ -76,23 +101,18 @@
               <label>To</label>
             </td>
             <td>
-              <select>
-                {{#each airportOptions}}
+              <select tabindex="50">
+                <option>-- Select --</option>
+                {{#each airport in airportOptions}}
                   <option
-                    selected="{{isAirportSelected name}}"
-                    class="js-rideform-field-to">{{name}}</option>
+                    selected="{{isAirportSelected airport.name}}"
+                    class="js-rideform-field-to">{{airport.name}}</option>
                 {{/each}}
               </select>
-              <!-- <input
-                type="text"
-                class="js-rideform-field-to"
-                placeholder="Airport"
-                value="{{rideFormModel.to}}"
-                tabindex="5"/> -->
             </td>
           </tr>
           <tr>
-            <td>
+            <td nowrap>
               {{#unless editing}}
                 <a href="#" class="js-rideform-fake" tabindex="0">Fake one</a>
               {{/unless}}
@@ -102,12 +122,12 @@
                 <a
                   href="#"
                   class="js-editride-cancel"
-                  tabindex="6">Cancel</a>
-                <button class="js-editride-save" tabindex="7">Save</button>
+                  tabindex="60">Cancel</a>
+                <button class="js-editride-save" tabindex="70">Save</button>
               {{else}}
                 <button
                   class="js-rideform-submit"
-                  tabindex="6">Submit</button>
+                  tabindex="60">Submit</button>
               {{/if}}
             </td>
           </tr>
@@ -117,7 +137,7 @@
         <!-- *********** -->
         <!-- Rides table -->
         <!-- *********** -->
-        <h2>Rides</h2>
+        <h3>Rides</h3>
         <table class="table table-striped">
           <thead>
             <tr>
@@ -126,7 +146,7 @@
               <th>Date/Time</th>
               <th>From</th>
               <th>To</th>
-              <th>Co-riders</th>
+              <th nowrap>Co-rider</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -137,12 +157,12 @@
             {{#each rides}}
                 <tr>
                   <td>{{bkn_ref}}</td>
-                  <td>{{name}} ({{phone}})</td>
-                  <td>{{datetime}}</td>
-                  <td>{{from}}</td>
-                  <td>{{to}}</td>
-                  <td>{{coriders}}</td>
-                  <td>
+                  <td nowrap>{{name}}<br/><img src="images/phone-icon.png" style="width: 16px; height: 16px;"/> {{phone}}</td>
+                  <td nowrap>{{formatDate datetime}}</td>
+                  <td nowrap>{{from}}</td>
+                  <td nowrap>{{to}}</td>
+                  <td nowrap>{{coriders}}</td>
+                  <td nowrap>
                     {{#if editing}}
                       {{#if editingThisRide}}
                         <span>editing...</span>

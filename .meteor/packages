@@ -22,3 +22,5 @@ reactive-dict
 twbs:bootstrap
 practicalmeteor:faker
 rajit:bootstrap3-datepicker
+momentjs:moment
+underscorestring:underscore.string

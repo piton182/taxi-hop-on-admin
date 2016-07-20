@@ -2,15 +2,11 @@ import { Rides } from '../both/rides.js';
 
 Meteor.methods(
   {
-    // {
-    //   'ping'({}) {
-    //     return "pong";
-    //   }
-    // },
-    'rides.create'(newRide/*TODO: { name: ..., ... }*/) {
+    'rides.create'(newRide) {
       // TODO: validate newRide
 
       { // doc enrichment
+        // TODO: poor algorithm
         newRide.bkn_ref = 'R' + Math.floor(Math.random()*(100*1000)); // TODO: it should generate at the server (as method?)
       }
 
@@ -21,8 +17,9 @@ Meteor.methods(
 
       Rides.remove(rideId);
     },
-    'rides.update'(ride) {
+    'rides.update'(ride = { _id, bkn_ref }) {
       // TODO: validate ride
+
       Rides.update({_id: ride._id}, ride);
     }
   },
