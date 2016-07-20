@@ -13,6 +13,18 @@ Template.hello.onCreated(function helloOnCreated() {
     editing: false,
     // rideBeingEdited: {},
   });
+
+  // Meteor.call(
+  //   'ping',
+  //   {},
+  //   (err, res) => {
+  //     if (err) {
+  //       alert(err);
+  //     } else {
+  //       alert(res);
+  //     }
+  //   }
+  // );
 });
 
 Template.hello.onRendered(function helloOnRendered() {
@@ -77,11 +89,14 @@ Template.hello.events({
   },
   'click .js-rideform-submit'(event, instance) {
     const newRide = instance.state.get('newRide')
-    { // enrich the doc
-      newRide.bkn_ref = 'R' + Math.floor(Math.random()*(100*1000)); // TODO: it should generate at the server (as method?)
-      newRide.coriders = '';
-    }
-    Rides.insert(newRide);
+
+    Meteor.call('rides.create', newRide,
+      (err, res) => {
+        if (err) {
+          // TODO: do not know how alert the end user yet
+        } else { /* success! */ }
+      }
+    );
 
     // clear the new ride form model
     instance.state.set('newRide', {});
@@ -96,7 +111,7 @@ Template.hello.events({
     instance.state.set('newRide', newRide);
   },
   'click .js-delete-ride'(event, instance) {
-    Rides.remove(this._id)
+    Meteor.call('rides.delete', { rideId: this._id }/*, no callback*/);
   },
   'click .js-edit-ride'(event, instance) {
     instance.state.set('editing', true);
@@ -108,7 +123,7 @@ Template.hello.events({
   },
   'click .js-editride-save'(event, instance) {
     const rideBeingEdited = instance.state.get('rideBeingEdited');
-    Rides.update({_id: rideBeingEdited._id}, rideBeingEdited);
+    Meteor.call('rides.update', rideBeingEdited);
     instance.state.set('editing', false);
     instance.state.set('rideBeingEdited', {});
   },
